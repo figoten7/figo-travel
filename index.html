@@ -36,16 +36,16 @@
                     </div>
 
                     <!-- 右邊：直接顯示地圖 -->
-                    <div class="w-full md:w-1/3 h-48 md:h-auto rounded-xl overflow-hidden shadow-sm">
-                        <iframe 
-                            width="100%" 
-                            height="100%" 
-                            frameborder="0" 
-                            style="border:0" 
-                            src="${h['地圖連結'].replace('/view', '/embed')}" 
-                            allowfullscreen>
-                        </iframe>
-                    </div>
+                   <div class="w-full md:w-1/3 h-48 md:h-auto rounded-xl overflow-hidden shadow-sm">
+    <iframe 
+        width="100%" 
+        height="100%" 
+        frameborder="0" 
+        style="border:0" 
+        src="${h['地圖連結']}" 
+        allowfullscreen>
+    </iframe>
+</div>
                 </div>
             `).join('');
         });
