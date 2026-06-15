@@ -4,34 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>台南精選住宿 | 旅人指南</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    </style>
+    <style>body { font-family: 'Noto Sans TC', sans-serif; }</style>
 </head>
 <body class="bg-slate-50 p-4 md:p-12">
     <div class="max-w-6xl mx-auto">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">台南精選住宿</h1>
+        <h1 class="text-4xl font-black text-center text-slate-900 mb-12">台南 9/19 精選住宿 TOP 10</h1>
         <div id="app" class="grid grid-cols-1 gap-12">
-            <p class="text-center text-gray-500 py-20">正在讀取精選住宿資料...</p>
+            <p class="text-center text-slate-500 py-20">正在為您讀取精選住宿資料...</p>
         </div>
     </div>
 
     <script>
-        // 請確認網址結尾為 /exec
         const API_URL = 'https://script.google.com/macros/s/AKfycbwMwbQQOTEcoibS_GlqPge0Pnb4xYjK8JOTZPWD_peO8SDTx-R_K5961GoOa0PyQ6A-lg/exec';
 
         fetch(API_URL)
             .then(res => res.json())
             .then(data => {
                 const app = document.getElementById('app');
-                app.innerHTML = data.map(h => `
-                    <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex flex-col md:flex-row gap-8 items-center">
+                app.innerHTML = data.map((h, index) => `
+                    <div class="bg-white p-8 rounded-[2rem] shadow-xl border border-slate-100 flex flex-col md:flex-row gap-8 items-center transition-all hover:shadow-2xl">
                         <div class="w-full md:w-1/2">
-                            <h2 class="text-3xl font-bold text-gray-800 mb-4">${h['飯店名稱']}</h2>
-                            <p class="text-blue-600 font-bold text-xl mb-4">價格: ${h['預估房價 (TWD)']}</p>
+                            <span class="bg-blue-600 text-white text-xs font-black px-4 py-1.5 rounded-full mb-4 inline-block">TOP ${index + 1}</span>
+                            <h2 class="text-3xl font-black text-slate-800 mb-4">${h['飯店名稱']}</h2>
+                            <p class="text-blue-600 font-bold text-xl mb-4">${h['預估房價 (TWD)']}</p>
                             <p class="text-gray-600 text-lg mb-6">${h['特色摘要']}</p>
-                            <div class="text-sm text-gray-500 bg-gray-50 p-4 rounded-xl border-l-4 border-blue-400 mb-6">
+                            <div class="text-sm text-gray-500 bg-slate-50 p-4 rounded-xl border-l-4 border-blue-400 mb-6">
                                 <strong>💡 重要資訊：</strong><br>${h['重要資訊']}
                             </div>
                             <a href="${h['訂房連結']}" target="_blank" class="inline-block bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold hover:bg-blue-600 transition-colors">立即前往訂房 →</a>
