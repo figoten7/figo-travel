@@ -6,48 +6,50 @@
     <title>9/19 台南精選住宿</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-6">
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold text-center mb-8">9/19 台南精選住宿</h1>
-        <!-- 容器：顯示資料的地方 -->
-        <div id="app" class="grid gap-6 md:grid-cols-2">
-            <p class="text-center col-span-2">正在載入推薦清單...</p>
+<body class="bg-gray-100 p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-10">9/19 台南精選住宿</h1>
+        
+        <div id="app" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <p class="col-span-full text-center text-gray-500 py-20">正在為您安全讀取住宿資料...</p>
         </div>
     </div>
 
     <script>
-        // 【重要】請將下方網址換成您 Apps Script 部署後的 /exec 網址
+        // 【重要】請確認此網址為您 Apps Script 部署且設定為「任何人」的版本
         const API_URL = 'https://script.google.com/macros/s/AKfycbwMwbQQOTEcoibS_GlqPge0Pnb4xYjK8JOTZPWD_peO8SDTx-R_K5961GoOa0PyQ6A-lg/exec';
 
         fetch(API_URL)
-        .then(res => res.json())
-        .then(data => {
-            const app = document.getElementById('app');
-            app.innerHTML = data.map(h => `
-                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col md:flex-row gap-6">
-                    <!-- 左邊：飯店資訊 -->
-                    <div class="flex-1">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-2">${h['飯店名稱']}</h2>
-                        <p class="text-blue-600 font-bold mb-3">價格: ${h['預估房價 (TWD)']}</p>
-                        <p class="text-gray-600 text-sm mb-3">${h['特色摘要']}</p>
-                        <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400">
-                            <strong>重要資訊：</strong><br>${h['重要資訊']}
+            .then(res => res.json())
+            .then(data => {
+                const app = document.getElementById('app');
+                app.innerHTML = data.map(h => `
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col h-full hover:shadow-xl transition-shadow">
+                        <h2 class="text-xl font-bold text-gray-800 mb-2">${h['飯店名稱']}</h2>
+                        <p class="text-blue-600 font-bold mb-3">${h['預估房價 (TWD)']}</p>
+                        <p class="text-gray-600 text-sm mb-4 flex-grow">${h['特色摘要']}</p>
+                        
+                        <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400 mb-4">
+                            <strong>💡 重要資訊：</strong><br>${h['重要資訊']}
+                        </div>
+                        
+                        <div class="w-full h-48 rounded-xl overflow-hidden shadow-sm border border-gray-100">
+                            <iframe 
+                                src="${h['地圖連結']}" 
+                                width="100%" 
+                                height="100%" 
+                                frameborder="0" 
+                                style="border:0" 
+                                allowfullscreen>
+                            </iframe>
                         </div>
                     </div>
-
-                    <!-- 右邊：直接顯示地圖 -->
-                   <div class="w-full md:w-1/3 h-48 md:h-auto rounded-xl overflow-hidden shadow-sm">
-                       <iframe 
-                           width="100%" 
-                           height="100%" 
-                           frameborder="0" 
-                           style="border:0" 
-                           src="${h['地圖連結']}" 
-                           allowfullscreen>
-                        </iframe>
-                    </div>
-            `).join('');
-        });
-</script>
+                `).join('');
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById('app').innerHTML = `<p class="col-span-full text-center text-red-500">無法讀取資料，請確認 API 權限設定為「任何人」。</p>`;
+            });
+    </script>
 </body>
 </html>
