@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9/19 台南精選住宿</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8">9/19 台南精選住宿</h1>
+        <!-- 容器：顯示資料的地方 -->
+        <div id="app" class="grid gap-6 md:grid-cols-2">
+            <p class="text-center col-span-2">正在載入推薦清單...</p>
+        </div>
+    </div>
+
+    <script>
+        // 【重要】請將下方網址換成您 Apps Script 部署後的 /exec 網址
+        const API_URL = 'https://script.google.com/macros/s/AKfycbwMwbQQOTEcoibS_GlqPge0Pnb4xYjK8JOTZPWD_peO8SDTx-R_K5961GoOa0PyQ6A-lg/exec';
+
+        fetch(API_URL)
+            .then(res => res.json())
+            .then(data => {
+                const app = document.getElementById('app');
+                app.innerHTML = data.map(h => `
+                    <div class="bg-white p-5 rounded-xl shadow-lg border border-gray-200">
+                        <h2 class="font-bold text-xl text-gray-800">${h['飯店名稱']}</h2>
+                        <p class="text-blue-600 font-semibold">價格: ${h['預估房價 (TWD)']}</p>
+                        <p class="text-sm text-gray-600 mt-2">${h['特色摘要']}</p>
+                        <p class="text-xs text-gray-500 bg-yellow-50 p-2 mt-2 rounded">💡 ${h['重要資訊']}</p>
+                        <a href="${h['地圖連結']}" target="_blank" class="block text-center mt-4 bg-gray-800 text-white py-2 rounded-lg hover:bg-gray-700">
+                            查看地圖
+                        </a>
+                    </div>
+                `).join('');
+            })
+            .catch(err => {
+                document.getElementById('app').innerHTML = `<p class="text-center text-red-500">無法讀取資料，請確認 API 網址是否正確。</p>`;
+            });
+    </script>
+</body>
+</html>
