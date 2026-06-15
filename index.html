@@ -3,20 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>9/19 台南精選住宿</title>
+    <title>台南精選住宿 | 旅人指南</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Noto Sans TC', sans-serif; scroll-behavior: smooth; }
+        /* 玻璃擬態導覽列效果 */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 p-4 md:p-12">
-    <div class="max-w-6xl mx-auto">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-12">台南精選住宿</h1>
-        
-        <div id="app" class="grid grid-cols-1 gap-12">
-            <p class="text-center text-gray-500 py-20">正在讀取精選住宿資料...</p>
+<body class="bg-slate-50">
+
+    <nav class="glass-nav sticky top-0 z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🏮</span>
+                <span class="font-black text-xl tracking-tight text-slate-800">台南住宿清單</span>
+            </div>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="#" class="hover:text-blue-600 transition-colors">精選推薦</a>
+                <a href="https://maps.google.com" target="_blank" class="hover:text-blue-600 transition-colors">開啟地圖</a>
+                <span class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs cursor-default">2024 更新</span>
+            </div>
         </div>
-    </div>
+    </nav>
+
+    <header class="py-16 px-6 text-center">
+        <h1 class="text-4xl md:text-5xl font-black text-slate-900 mb-4">發現台南最美的歇腳處</h1>
+        <p class="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
+            我們為您挑選了 10 間極具特色的住宿，無論是五星級奢華、文青設計還是老宅改建，都能讓您的台南之旅更加難忘。
+        </p>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pb-24">
+        <div id="app" class="grid grid-cols-1 gap-12">
+            <div class="col-span-full flex flex-col items-center py-20">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+                <p class="text-slate-400 font-medium">正在為您開啟地圖門戶...</p>
+            </div>
+        </div>
+    </main>
 
     <script>
-        // 請確保此連結是 Apps Script 部署且設定為「任何人」的版本
         const API_URL = 'https://script.google.com/macros/s/AKfycbwMwbQQOTEcoibS_GlqPge0Pnb4xYjK8JOTZPWD_peO8SDTx-R_K5961GoOa0PyQ6A-lg/exec';
 
         fetch(API_URL)
@@ -24,22 +56,41 @@
             .then(data => {
                 const app = document.getElementById('app');
                 app.innerHTML = data.map(h => `
-                    <div class="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex flex-col md:flex-row gap-8 items-center">
+                    <div class="bg-white rounded-[2.5rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-slate-100 flex flex-col lg:flex-row overflow-hidden hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-500 group">
                         
-                        <div class="w-full md:w-1/2 flex flex-col justify-center">
-                            <h2 class="text-3xl font-bold text-gray-800 mb-4">${h['飯店名稱']}</h2>
-                            <p class="text-blue-600 font-bold text-xl mb-4">價格: ${h['預估房價 (TWD)']}</p>
-                            <p class="text-gray-600 text-lg mb-6 leading-relaxed">${h['特色摘要']}</p>
-                            <div class="text-sm text-gray-500 bg-gray-50 p-4 rounded-xl border-l-4 border-blue-400">
-                                <strong>💡 重要資訊：</strong><br>${h['重要資訊']}
+                        <div class="p-10 lg:w-1/2 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span class="bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider">Top Choice</span>
+                                    <span class="text-amber-500 text-sm font-bold italic">Tainan Classic</span>
+                                </div>
+                                <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-4 group-hover:text-blue-600 transition-colors">${h['飯店名稱']}</h2>
+                                
+                                <div class="flex items-baseline gap-2 mb-6">
+                                    <span class="text-blue-600 font-black text-3xl italic">${h['預估房價 (TWD)']}</span>
+                                    <span class="text-slate-400 text-sm font-medium">/ TWD Per Night</span>
+                                </div>
+
+                                <p class="text-slate-600 text-lg leading-relaxed mb-8 border-l-4 border-slate-200 pl-6 italic">
+                                    "${h['特色摘要']}"
+                                </p>
+                            </div>
+
+                            <div class="bg-blue-50 p-6 rounded-3xl">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="text-lg">💡</span>
+                                    <span class="font-bold text-slate-800 text-sm">旅人筆記</span>
+                                </div>
+                                <p class="text-blue-900/70 text-sm leading-relaxed">
+                                    ${h['重要資訊']}
+                                </p>
                             </div>
                         </div>
 
-                        <div class="w-full md:w-1/2 h-[400px] rounded-2xl overflow-hidden shadow-inner border border-gray-100">
+                        <div class="lg:w-1/2 h-[450px] lg:h-auto min-h-[400px] relative overflow-hidden">
                             <iframe 
                                 src="${h['地圖連結']}" 
-                                width="100%" 
-                                height="100%" 
+                                class="absolute inset-0 w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
                                 frameborder="0" 
                                 style="border:0" 
                                 allowfullscreen>
@@ -49,7 +100,11 @@
                 `).join('');
             })
             .catch(err => {
-                document.getElementById('app').innerHTML = `<p class="text-center text-red-500">無法讀取資料，請確認 API 連結與權限設定。</p>`;
+                document.getElementById('app').innerHTML = `
+                    <div class="col-span-full text-center py-20">
+                        <p class="text-red-500 font-bold text-xl mb-2">喔不！資料讀取發生錯誤</p>
+                        <p class="text-slate-400">請確認您的 API 權限或稍後再試。</p>
+                    </div>`;
             });
     </script>
 </body>
