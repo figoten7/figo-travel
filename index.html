@@ -8,15 +8,14 @@
 </head>
 <body class="bg-gray-100 p-4 md:p-8">
     <div class="max-w-6xl mx-auto">
-        <h1 class="text-3xl font-bold text-center text-gray-800 mb-10">9/19 台南精選住宿</h1>
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-10">台南精選住宿</h1>
         
-        <div id="app" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <p class="col-span-full text-center text-gray-500 py-20">正在為您安全讀取住宿資料...</p>
+        <div id="app" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <p class="col-span-full text-center text-gray-500 py-20">正在讀取精選住宿清單...</p>
         </div>
     </div>
 
     <script>
-        // 【重要】請確認此網址為您 Apps Script 部署且設定為「任何人」的版本
         const API_URL = 'https://script.google.com/macros/s/AKfycbwMwbQQOTEcoibS_GlqPge0Pnb4xYjK8JOTZPWD_peO8SDTx-R_K5961GoOa0PyQ6A-lg/exec';
 
         fetch(API_URL)
@@ -24,16 +23,20 @@
             .then(data => {
                 const app = document.getElementById('app');
                 app.innerHTML = data.map(h => `
-                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-col h-full hover:shadow-xl transition-shadow">
-                        <h2 class="text-xl font-bold text-gray-800 mb-2">${h['飯店名稱']}</h2>
-                        <p class="text-blue-600 font-bold mb-3">${h['預估房價 (TWD)']}</p>
-                        <p class="text-gray-600 text-sm mb-4 flex-grow">${h['特色摘要']}</p>
+                    <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100 flex flex-row gap-6 hover:shadow-xl transition-shadow items-stretch">
                         
-                        <div class="text-xs text-gray-500 bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400 mb-4">
-                            <strong>💡 重要資訊：</strong><br>${h['重要資訊']}
+                        <div class="flex-1 flex flex-col justify-between">
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-800 mb-2">${h['飯店名稱']}</h2>
+                                <p class="text-blue-600 font-bold mb-2">${h['預估房價 (TWD)']}</p>
+                                <p class="text-gray-600 text-sm mb-4">${h['特色摘要']}</p>
+                            </div>
+                            <div class="text-xs text-gray-500 bg-gray-50 p-2 rounded-lg border-l-4 border-blue-400">
+                                <strong>💡 重要資訊：</strong><br>${h['重要資訊']}
+                            </div>
                         </div>
-                        
-                        <div class="w-full h-48 rounded-xl overflow-hidden shadow-sm border border-gray-100">
+
+                        <div class="w-32 md:w-40 flex-shrink-0 rounded-xl overflow-hidden shadow-sm border border-gray-100">
                             <iframe 
                                 src="${h['地圖連結']}" 
                                 width="100%" 
@@ -47,7 +50,6 @@
                 `).join('');
             })
             .catch(err => {
-                console.error(err);
                 document.getElementById('app').innerHTML = `<p class="col-span-full text-center text-red-500">無法讀取資料，請確認 API 權限設定為「任何人」。</p>`;
             });
     </script>
