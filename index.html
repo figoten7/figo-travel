@@ -13,7 +13,7 @@
 <body class="bg-slate-50">
 
     <header class="relative h-[40vh] flex items-center justify-center overflow-hidden shadow-2xl">
-        <img src="https://images.unsplash.com/photo-1596561332219-5d6148384218?q=80&w=2000" 
+        <img src="https://images.unsplash.com/photo-1549421263-504543369085?auto=format&fit=crop&w=2000&q=80" 
              class="absolute inset-0 w-full h-full object-cover brightness-50">
         <div class="relative z-10 text-center px-6">
             <h1 class="text-4xl md:text-6xl font-black text-white mb-4 tracking-tight">台南 9/19 精選住宿 TOP 10</h1>
@@ -31,7 +31,6 @@
     </main>
 
     <script>
-        // 請務必更新為您正確的 Apps Script Web App 連結
         const API_URL = 'https://script.google.com/macros/s/AKfycbwMwbQQOTEcoibS_GlqPge0Pnb4xYjK8JOTZPWD_peO8SDTx-R_K5961GoOa0PyQ6A-lg/exec';
 
         fetch(API_URL)
@@ -61,9 +60,6 @@
                         </div>
                     </div>
                 `).join('');
-            })
-            .catch(err => {
-                document.getElementById('app').innerHTML = `<p class="text-center text-red-500">無法連線至資料庫，請檢查您的 Apps Script 權限設定。</p>`;
             });
     </script>
 </body>
